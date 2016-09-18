@@ -109,7 +109,15 @@ class TimeCommand extends VanillaCommand{
 				$value = $this->getInteger($sender, $args[1], 0);
 			}
 
-			foreach($sender->getServer()->getLevels() as $level){
+			if(isset($args[2])){
+				$selectedLevel = $sender->getServer()->getLevelByName($args[2]);
+				/** @var Level[] */
+				$levels = (($selectedLevel instanceof Level) ? [$selectedLevel] : $sender->getLevel());
+			}else{
+				$levels = $sender->getServer()->getLevels();
+			}
+
+			foreach($levels as $level){
 				$level->checkTime();
 				$level->setTime($value);
 				$level->checkTime();
@@ -123,7 +131,16 @@ class TimeCommand extends VanillaCommand{
 			}
 
 			$value = $this->getInteger($sender, $args[1], 0);
-			foreach($sender->getServer()->getLevels() as $level){
+
+			if(isset($args[2])){
+				$selectedLevel = $sender->getServer()->getLevelByName($args[2]);
+				/** @var Level[] */
+				$levels = (($selectedLevel instanceof Level) ? [$selectedLevel] : $sender->getLevel());
+			}else{
+				$levels = $sender->getServer()->getLevels();
+			}
+
+			foreach($levels as $level){
 				$level->checkTime();
 				$level->setTime($level->getTime() + $value);
 				$level->checkTime();
